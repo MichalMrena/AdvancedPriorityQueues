@@ -14,12 +14,10 @@ namespace unizaFriMix {
 	class QueueEntry
 	{
 	private:
-
 		E data;
 		N prio;
 
 	public:
-
 		QueueEntry(const E & pData, N pPrio);
 		virtual ~QueueEntry() = default;
 		E & getData();
@@ -27,7 +25,6 @@ namespace unizaFriMix {
 		virtual bool operator<(const QueueEntry<N, E> & other);
 
 	protected:
-
 		void setPrioInternal(N newPrio);
 
 	};
@@ -145,7 +142,6 @@ namespace unizaFriMix {
 	{
 		if (newPrio > entry.getPrio())
 		{
-			std::cout << newPrio << " > " << entry.getPrio() << std::endl;
 			throw std::invalid_argument("New value of the priority must be lower or equal than current value.");
 		}
 	}

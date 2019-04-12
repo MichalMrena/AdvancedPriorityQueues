@@ -94,8 +94,8 @@ namespace unizaFriMix {
 		void rmFlChecked(FixListRecord * record, FixListRecord ** fixListPtr, FixListRecord ** rlflptr);
 		void appendFixList(FixListRecord * record, FixListRecord ** fixListPtr);
 		void prependFixList(FixListRecord * record, FixListRecord ** fixListPtr);
-		void addToFixList(StrictFibNode * node, RankListRecord * rank, FixListRecord ** rlflptr, FixListRecord ** fixListPtr);
-		void addToFixList(FixListRecord * flr, RankListRecord * rank, FixListRecord ** rankToFlPtr, FixListRecord ** fixListPtr);
+		void addToFixList(StrictFibNode * node, FixListRecord ** rankToFlPtr, FixListRecord ** fixListPtr);
+		void addToFixList(FixListRecord * flr, FixListRecord ** rankToFlPtr, FixListRecord ** fixListPtr);
 		void increaseLoss(StrictFibNode * node);
 		
 		static void rmFlUnchcked(FixListRecord * record, FixListRecord ** fixListPtr);
@@ -426,8 +426,7 @@ namespace unizaFriMix {
 				}
 				y->removeChild(x);
 				this->addRootChild(x);
-				RankListRecord * rank(x->rll);
-				this->addToFixList(x, rank, &(rank->activeRoots), &(this->fixListActRoots));
+				this->addToFixList(x, &(x->rll->activeRoots), &(this->fixListActRoots));
 				this->decreaseRank(y);
 			}
 			else
@@ -731,7 +730,7 @@ namespace unizaFriMix {
 				it->loss = 0;
 			}
 
-			this->addToFixList(it, it->rll, &(it->rll->activeRoots), &(this->fixListActRoots));
+			this->addToFixList(it, &(it->rll->activeRoots), &(this->fixListActRoots));
 			it = it->right;
 
 			if (it == endIt) break;
@@ -874,8 +873,7 @@ namespace unizaFriMix {
 
 		this->sort(&x, &y);
 		this->activeRootReduce(x, y);
-		RankListRecord * rank(x->rll);
-		this->addToFixList(x, rank, &(rank->activeRoots), &(this->fixListActRoots));
+		this->addToFixList(x, &(x->rll->activeRoots), &(this->fixListActRoots));
 
 		return true;
 	}
@@ -987,8 +985,7 @@ namespace unizaFriMix {
 		y->makeActive(this->activeRecord, this->rankList);
 
 		this->justIncRank(x);
-		RankListRecord * rank(x->rll);
-		this->addToFixList(x, rank, &(rank->activeRoots), &(this->fixListActRoots));
+		this->addToFixList(x, &(x->rll->activeRoots), &(this->fixListActRoots));
 
 		x->loss = 0;
 		y->loss = 0;
@@ -1005,8 +1002,7 @@ namespace unizaFriMix {
 		y->removeChild(x);
 		x->loss = 0;
 		this->addRootChild(x);
-		RankListRecord * rank(x->rll);
-		this->addToFixList(x, rank, &(rank->activeRoots), &(this->fixListActRoots));
+		this->addToFixList(x, &(x->rll->activeRoots), &(this->fixListActRoots));
 
 		this->decreaseRank(y);
 		if (!y->isActiveRoot())
@@ -1119,15 +1115,15 @@ namespace unizaFriMix {
 	}
 
 	template<typename N, typename E>
-	void StrictFibonacciHeap<N, E>::addToFixList(StrictFibNode * node, RankListRecord * rank, FixListRecord ** rlflptr, FixListRecord ** fixListPtr)
+	void StrictFibonacciHeap<N, E>::addToFixList(StrictFibNode * node, FixListRecord ** rankToFlPtr, FixListRecord ** fixListPtr)
 	{
-		auto * flr(new FixListRecord(node, rank));
+		auto * flr(new FixListRecord(node, node->rll));
 		node->flr = flr;
-		this->addToFixList(flr, rank, rlflptr, fixListPtr);
+		this->addToFixList(flr, rankToFlPtr, fixListPtr);
 	}
 
 	template<typename N, typename E>
-	void StrictFibonacciHeap<N, E>::addToFixList(FixListRecord * flr, RankListRecord * rank, FixListRecord ** rankToFlPtr, FixListRecord ** fixListPtr)
+	void StrictFibonacciHeap<N, E>::addToFixList(FixListRecord * flr, FixListRecord ** rankToFlPtr, FixListRecord ** fixListPtr)
 	{
 		if (!(*rankToFlPtr))
 		{
@@ -1158,8 +1154,7 @@ namespace unizaFriMix {
 	{
 		if (node->loss == 0)
 		{
-			RankListRecord * rank(node->rll);
-			this->addToFixList(node, rank, &(rank->loss), &(this->fixListLoss));
+			this->addToFixList(node, &(node->rll->loss), &(this->fixListLoss));
 			++node->loss;
 		}
 		else if (node->loss == 1 && this->isSingle(node->flr))
@@ -1215,7 +1210,7 @@ namespace unizaFriMix {
 			this->rmFlChecked(flr, &(this->fixListActRoots), &(rank->activeRoots));
 			delete flr;
 			this->justDecRank(node);
-			this->addToFixList(node, rank->dec, &(rank->dec->activeRoots), &(this->fixListActRoots));
+			this->addToFixList(node, &(node->rll->activeRoots), &(this->fixListActRoots));
 		}
 		else if (node->loss > 0)
 		{
@@ -1224,7 +1219,7 @@ namespace unizaFriMix {
 			this->rmFlChecked(flr, &(this->fixListLoss), &(rank->loss));
 			delete flr;
 			this->justDecRank(node);
-			this->addToFixList(node, rank->dec, &(rank->dec->loss), &(this->fixListLoss));
+			this->addToFixList(node, &(node->rll->loss), &(this->fixListLoss));
 		}
 	}
 
