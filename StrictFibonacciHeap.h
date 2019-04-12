@@ -18,8 +18,7 @@ namespace unizaFriMix {
 	template<typename N, typename E>
 	class StrictFibonacciHeap final : public PriorityQueue<N, E>
 	{
-	private:
-
+		/// Forward declarations of nested classes
 		class StrictFibNode;
 		class StrictFibEntry;
 		class ActiveRecord;
@@ -27,6 +26,7 @@ namespace unizaFriMix {
 		class FixListRecord;
 		class RankListRecord;
 
+		/// Private field of the heap / heap record
 		size_t dataSize;
 		StrictFibNode  * root;
 		ActiveRecord   * activeRecord;
@@ -37,16 +37,18 @@ namespace unizaFriMix {
 		FixListRecord  * fixListLoss;
 
 	public:
-		
+
+		// These two would be complicated to implement
 		StrictFibonacciHeap(const StrictFibonacciHeap & other) = delete;
 		StrictFibonacciHeap & operator=(const StrictFibonacciHeap & other) = delete;
 
+		/// Constructor, destructor
 		StrictFibonacciHeap();
-		StrictFibonacciHeap(StrictFibonacciHeap<N, E> && other) noexcept;
 		virtual ~StrictFibonacciHeap();
-
+		StrictFibonacciHeap(StrictFibonacciHeap<N, E> && other) noexcept;
 		StrictFibonacciHeap & operator=(StrictFibonacciHeap && other) noexcept;
 
+		/// Implementation of the PriorityQueue interface
 		QueueEntry<N, E>* insert(const E & data, N prio)      override;
 		void decreaseKey(QueueEntry<N, E>& entry, N newPrio)  override;
 		PriorityQueue<N, E>* meld(PriorityQueue<N, E>* other) override;
@@ -59,13 +61,13 @@ namespace unizaFriMix {
 
 		StrictFibonacciHeap(StrictFibNode * pRoot, size_t pSize, ActiveRecord * pActRecord, FixListRecord * pFlActRoot, FixListRecord * pFlLoss, RankListRecord * pRankList, StrictFibNode * pNonLink, StrictFibNode * pQueueHead);
 
-		/// Heap operation
+		/// Heap operations
 		void prependQueue(StrictFibNode * node);
 		void removeFromQueue(StrictFibNode * node);
 		void removeRootChild(StrictFibNode * node);
 		void addRootChild(StrictFibNode * node);
 
-		/// deleteMin utils
+		/// DeleteMin utils
 		void rootify(StrictFibNode * min);
 		void makePassive(StrictFibNode * min);
 		void moveOldChildrenTo(StrictFibNode * min);
@@ -104,15 +106,14 @@ namespace unizaFriMix {
 
 		/// RankList
 		void justIncRank(StrictFibNode * node);
-		static void justDecRank(StrictFibNode * node);
 		void decreaseRank(StrictFibNode * node);
+		static void justDecRank(StrictFibNode * node);
 
 		/// Utils
 		void sort(StrictFibNode ** x, StrictFibNode ** y, StrictFibNode ** z);
 		void sort(StrictFibNode ** x, StrictFibNode ** y);
 
-		private:
-
+		/// Declarations of nested classes
 		class StrictFibNode
 		{
 		public:
@@ -260,6 +261,8 @@ namespace unizaFriMix {
 
 		};
 	};
+
+	/// Definitions of everything that was declared above
 
 	//
 	// StrictFibonacciHeap
