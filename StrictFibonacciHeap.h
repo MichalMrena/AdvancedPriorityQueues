@@ -3,14 +3,14 @@
 #include <utility>
 #include "PriorityQueue.h"
 
-namespace unizaFriMix {
+namespace uniza_fri {
 
 	/**
 		< Complexities >
 
 		insert		-> O(1)
 		findMin		-> O(1)
-		decreaseKey -> O(1)
+		decreaseKey	-> O(1)
 		meld		-> O(1)
 		deleteMin	-> O(lg n)
 	*/
@@ -26,7 +26,7 @@ namespace unizaFriMix {
 		class FixListRecord;
 		class RankListRecord;
 
-		/// Private field of the heap / heap record
+		/// Private fields of the heap / heap record
 		size_t dataSize;
 		StrictFibNode  * root;
 		ActiveRecord   * activeRecord;
@@ -638,30 +638,6 @@ namespace unizaFriMix {
 		}
 
 		this->root->removeChild(node);
-		//if (node == node->left)
-		//{
-		//	this->nonLinkable = nullptr;
-		//}
-		//else
-		//{
-		//	if (node == this->nonLinkable)
-		//	{
-		//		if (!this->nonLinkable->right->isPassiveLinkable() && !this->nonLinkable->right->isActive())
-		//		{
-		//			this->nonLinkable = this->nonLinkable->right;
-		//		}
-		//		else if (this->nonLinkable->left->isActive())
-		//		{
-		//			this->nonLinkable = this->nonLinkable->left;
-		//		}
-		//		else
-		//		{
-		//			this->nonLinkable = nullptr;
-		//		}
-		//	}
-		//}
-
-		//this->root->removeChild(node);
 	}
 
 	template<typename N, typename E>
