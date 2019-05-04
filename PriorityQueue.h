@@ -1,6 +1,6 @@
 #pragma once
 
-namespace unizaFriMix {
+namespace uniza_fri {
 
 	/**
 		< Template parameters >
