@@ -1,6 +1,2 @@
 # Advanced Priority Queues
-StrictFibonacciHeap : http://www.cs.au.dk/~gerth/papers/stoc12.pdf
-
-BrodalQueue : https://dl.acm.org/citation.cfm?id=313883
-
-*BrodalQueue will need a bit of refactoring so feel free to check StrictFibonacciHeap but be careful with opening BrodalQueue...*
+My bachelors thesesis where I examined couple of interesting priority queues points to this repo. Originally it contained implementations of these queues in C++. In my opinion the code I wrote was quite ugly so right now I am doing some refactoring and when I am done I will reupload implementations of **Brodal queue** and **Strict Fibonacci heap**.
