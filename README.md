@@ -1,2 +1,2 @@
 # Advanced Priority Queues
-My bachelors thesesis where I have examined couple of interesting priority queues points to this repo. Originally it contained implementations of these queues in C++. In my opinion the code I wrote was quite ugly so right now I am doing some refactoring and when I am done I will reupload implementations of **Brodal queue** and **Strict Fibonacci heap**.
+Hello visitor. My bachelors thesis points to this repository. In the thesis I have examined some implementations of the priority queue abstract data type. You can find some of them [here](https://github.com/MichalMrena/mix-ds).
